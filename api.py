@@ -43,7 +43,8 @@ def delete_knowledge():
     document = Document(filename)
     if not os.path.isfile(document.path_txt):
         return make_response(jsonify(message=f"knowledge {document.name} does not exists"), 400)
-
+    if os.path.isfile(document.path_txt):
+        os.remove(document.path_txt)
     preprocess(document.folder, pattern="folder", delete_all_document=True)
     return make_response(jsonify(message=f"delete {document.name} success"), 200)
 

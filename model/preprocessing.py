@@ -7,6 +7,7 @@ from haystack.document_store import FAISSDocumentStore
 from model.retriever import retriever
 from haystack.file_converter.txt import TextConverter
 
+
 # Load environment variables
 
 load_dotenv()
@@ -35,6 +36,7 @@ def preprocess(dir_file, pattern, delete_all_document):
     return "Encode Successful"
 
 
+
 def load_document(dir_file, pattern):
 
     preprocessor = PreProcessor(
@@ -46,26 +48,22 @@ def load_document(dir_file, pattern):
         split_respect_sentence_boundary=True,
         split_overlap=0,
         )
-
-    docs = ""
-
+    
     if pattern == "folder":
-
         all_docs = convert_files_to_dicts(dir_path=dir_file,clean_func=clean_wiki_text, split_paragraphs=True)
         nested_docs = [preprocessor.process(d) for d in all_docs]
         docs = [d for x in nested_docs for d in x]
 
-    elif pattern == "file":
+        return docs
         
-        converter = TextConverter(remove_numeric_tables=True, valid_languages=["en"])
-        doc = converter.convert(file_path=dir_file, meta=None)
+    converter = TextConverter(remove_numeric_tables=True)
+    doc_txt = converter.convert(file_path=dir_file, meta=None)
 
-        docs = preprocessor.process(doc)
-
-
-    # clean text and split text into sensible units
+    docs = preprocessor.process(doc_txt)
 
     return docs
+
+
 
 def store_documents(load_docs, delete_all_document):
     """
@@ -88,13 +86,9 @@ def store_documents(load_docs, delete_all_document):
         )
 
     if delete_all_document == True:
-
-        # (FIRST RUN ONLY) Delete all document in database
-
         document_store.delete_all_documents()
 
     # Write down processed document into database
-
     document_store.write_documents(load_docs, index='document')
 
     return document_store
