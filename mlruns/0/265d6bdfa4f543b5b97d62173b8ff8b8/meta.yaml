@@ -1,0 +1,15 @@
+artifact_uri: file:///home/benjamin/DPR/mlruns/0/265d6bdfa4f543b5b97d62173b8ff8b8/artifacts
+end_time: 1629436010367
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+name: ''
+run_id: 265d6bdfa4f543b5b97d62173b8ff8b8
+run_uuid: 265d6bdfa4f543b5b97d62173b8ff8b8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1629435950189
+status: 3
+tags: []
+user_id: benjamin
